@@ -1,0 +1,4 @@
+git make curl
+clang
+cmake g++
+g++-mingw-w64-i686
