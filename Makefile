@@ -1,12 +1,17 @@
+TARGET ?= linux-x86_64
+# linux-x86_64
+# win32-i686
+
 ifeq ($(OS),Windows_NT)
 	EXE_SUFFIX := .exe
 endif
 
 ELF2DFUSE_C := elf2dfuse.c
-TARGET := elf2dfuse$(EXE_SUFFIX)
 
 .PHONY: all
-all: $(TARGET)
+all:
+	cmake --preset linux-x86_64 -S . -B tmp/linux-x86_64
+	cmake --build tmp/linux-x86_64
 
 $(TARGET): Makefile $(ELF2DFUSE_C)
 	$(CC) $(ELF2DFUSE_C) -o $@ $(CFLAGS)
