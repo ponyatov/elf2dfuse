@@ -72,3 +72,14 @@ update_Debian:
 update_MinGW:
 	pacman -Suy
 	pacman -S `cat $< | tr '[ \t\r\n]+' ' ' `
+
+# merge
+.PHONY: release
+release:
+	git tag $(NOW)_$(REL)_$(BRANCH)
+	git push -v --tags
+
+ZIP = tmp/$(MODULE)_$(NOW)_$(REL)_$(BRANCH).zip
+zip: $(ZIP)
+$(ZIP): doxy
+	git archive --format zip --output $(ZIP) HEAD
