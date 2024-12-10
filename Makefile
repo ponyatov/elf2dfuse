@@ -18,6 +18,7 @@ endif
 # dirs
 CWD = $(CURDIR)
 BIN = $(CWD)/bin
+DOC = $(CWD)/doc
 INC = $(CWD)/inc
 SRC = $(CWD)/src
 TMP = $(CWD)/tmp
@@ -49,6 +50,11 @@ tmp/format_cpp: $(C) $(H)
 	$(CF) $? && touch $@
 
 # doc
+
+# DOCS += $(DOC)/Cpp/modern-cmake.pdf
+$(DOC)/Cpp/modern-cmake.pdf:
+	$(CURL) $@ https://cliutils.gitlab.io/modern-cmake/modern-cmake.pdf
+
 .PHONY: doc
 doc: $(DOCS)
 
@@ -57,8 +63,8 @@ doc: $(DOCS)
 install: doc ref gz
 	$(MAKE) update
 update: update_$(OS)
-ref: $(REF)
-gz:  $(GZ)
+ref:    $(REF)
+gz:     $(GZ)
 
 update_Debian:
 	sudo apt update
