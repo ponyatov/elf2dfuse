@@ -6,20 +6,16 @@ ifeq ($(OS),Windows_NT)
 	EXE_SUFFIX := .exe
 endif
 
-ELF2DFUSE_C := elf2dfuse.c
+C += $(wildcard src/*.c*)
 
 .PHONY: all
 all:
 	cmake --preset linux-x86_64 -S . -B tmp/linux-x86_64
 	cmake --build tmp/linux-x86_64
 
-$(TARGET): Makefile $(ELF2DFUSE_C)
-	$(CC) $(ELF2DFUSE_C) -o $@ $(CFLAGS)
-	strip $@
-
 .PHONY: clean
 clean:
-	rm -f $(TARGET)
+	rm -rf tmp/$(TARGET) bin/$(TARGET)
 
 # install
 .PHONY: install update ref gz
