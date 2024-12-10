@@ -9,7 +9,8 @@
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/bin/${presetName}",
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": false
+                "CMAKE_EXPORT_COMPILE_COMMANDS": false,
+                "APP": "elf2dfuse"
             }
         },
         {
