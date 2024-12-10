@@ -6,16 +6,25 @@ ifeq ($(OS),Windows_NT)
 	EXE_SUFFIX := .exe
 endif
 
-C += $(wildcard src/*.c*)
+# dirs
+CWD = $(CURDIR)
+BIN = $(CWD)/bin
+SRM = $(CWD)/src
+TMP = $(CWD)/tmp
 
+# src
+C += $(wildcard $(SRC)/*.c*)
+
+# all
 .PHONY: all
 all:
-	cmake --preset linux-x86_64 -S . -B tmp/linux-x86_64
-	cmake --build tmp/linux-x86_64
+	cmake -S $(CWD) -B $(TMP)/$(TARGET) --preset $(TARGET)
+	cmake --build      $(TMP)/$(TARGET)
+	cmake --install    $(TMP)/$(TARGET)
 
 .PHONY: clean
 clean:
-	rm -rf tmp/$(TARGET) bin/$(TARGET)
+	rm -rf $(TMP)/$(TARGET) $(BIN)/$(TARGET)
 
 # install
 .PHONY: install update ref gz
