@@ -9,8 +9,7 @@
             "cacheVariables": {
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/bin/${presetName}",
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": false,
-                "APP": "elf2dfuse"
+                "CMAKE_EXPORT_COMPILE_COMMANDS": false
             }
         },
         {
@@ -18,17 +17,14 @@
             "description": "developer's host Linux",
             "inherits": "common",
             "toolchainFile": "${sourceDir}/cmake/x86_64-linux-gnu.cmake",
-            "cacheVariables": {}
+            "cacheVariables": {"PRESET": "linux-x86_64"}
         },
         {
             "name": "win32-i686",
             "description": "retro Windows x32",
             "inherits": "common",
             "toolchainFile": "${sourceDir}/cmake/i686-w64-mingw32-win32.cmake",
-            "cacheVariables": {
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/bin/${presetName}",
-                "CMAKE_BUILD_TYPE": "Debug"
-            }
+            "cacheVariables": {"PRESET": "win32-i686"}
         }
     ]
 }

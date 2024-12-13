@@ -1,5 +1,5 @@
 # cross
-TARGET ?= linux-x86_64
+PRESET ?= linux-x86_64
 # linux-x86_64
 # win32-i686
 
@@ -32,16 +32,19 @@ C += $(wildcard $(SRC)/*.c*)
 H += $(wildcard $(INC)/*.h*)
 
 # all
-.PHONY: all
+.PHONY: all all_
 all:
-	cmake -S $(CWD) -B $(TMP)/$(TARGET) --preset $(TARGET)
-	cmake --build      $(TMP)/$(TARGET)
-	cmake --install    $(TMP)/$(TARGET)
+	$(MAKE) PRESET=linux-x86_64 all_
+	$(MAKE) PRESET=win32-i686   all_
+all_:
+	cmake -S $(CWD) -B $(TMP)/$(PRESET) --preset $(PRESET)
+	cmake --build      $(TMP)/$(PRESET)
+	cmake --install    $(TMP)/$(PRESET)
 
 # clean
 .PHONY: clean
 clean:
-	rm -rf $(TMP)/$(TARGET) $(BIN)/$(TARGET)
+	rm -rf $(TMP)/$(PRESET) $(BIN)/$(PRESET) $(BIN)/*$(MODULE)*
 
 # format
 .PHONY: format
