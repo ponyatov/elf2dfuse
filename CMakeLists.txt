@@ -1,44 +1,40 @@
 cmake_minimum_required(VERSION 3.22)
-get_filename_component(PROJECT_NAME ${CMAKE_SOURCE_DIR} NAME_WE)
-project(${PROJECT_NAME} LANGUAGES C CXX ASM)
-
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+get_filename_component(CMAKE_PROJECT_NAME ${CMAKE_SOURCE_DIR} NAME_WE)
+project(${CMAKE_PROJECT_NAME} LANGUAGES C CXX ASM)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
+include(version)
 
 set(CWD ${CMAKE_SOURCE_DIR})
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CWD}/cmake)
 set(BIN ${CWD}/bin)
+set(CMAKE_INSTALL_PREFIX ${BIN})
+set(DOC ${CWD}/doc)
+set(LIB ${CWD}/lib)
 set(INC ${CWD}/inc)
 set(SRC ${CWD}/src)
 set(TMP ${CWD}/tmp)
 
 file(GLOB_RECURSE A
-    "${SRC}/*.s*"
+    "${CWD}/src/*.s*"
 )
 file(GLOB_RECURSE C
-    "${SRC}/*.c*"
+    "${CWD}/src/*.c*"
 )
 file(GLOB_RECURSE H
-    "${INC}/*.h*"
+    "${CWD}/inc/*.h*"
 )
 
 include_directories(
-    ${INC} ${TMP}
+    ${INC} ${TMP} ${SRC}
 )
 
 add_executable(${CMAKE_PROJECT_NAME}
-    ${C} ${H} ${A}
+    ${C} ${H} ${A} ${LD}
+    ${FLEX_lex_OUTPUTS} ${BISON_yacc_OUTPUTS}
 )
 
-target_link_libraries(${PROJECT_NAME})
+target_link_libraries(${CMAKE_PROJECT_NAME})
 
-include(version)
-# set_target_properties(${PROJECT_NAME}
-#     PROPERTIES OUTPUT_NAME ${BIN_OUTPUT_NAME}${CMAKE_EXECUTABLE_SUFFIX})
-install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION ${BIN})
-install(
-    PROGRAMS ${TMP}/${PRESET}/${CMAKE_PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX}
-    DESTINATION ${BIN}
-    RENAME ${BIN_OUTPUT_NAME}${CMAKE_EXECUTABLE_SUFFIX})
+# target install
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${BIN_OUTPUT_NAME})
+install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX})
+

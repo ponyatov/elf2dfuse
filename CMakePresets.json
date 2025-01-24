@@ -1,5 +1,12 @@
 {
     "version": 6,
+    "buildPresets": [
+        {
+            "name":              "linux",
+            "configurePreset":   "linux",
+            "targets":          ["all","install"]
+        }
+    ],
     "configurePresets": [
         {
             "name": "common",
@@ -7,17 +14,20 @@
             "binaryDir": "${sourceDir}/tmp/${presetName}",
             "generator": "Unix Makefiles",
             "cacheVariables": {
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/bin/${presetName}",
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_EXPORT_COMPILE_COMMANDS": false
+                "CMAKE_VERBOSE_MAKEFILE": true,
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/bin",
+                "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
-            "name": "linux-x86_64",
-            "description": "developer's host Linux",
+            "name": "linux",
             "inherits": "common",
+            "displayName": "x86_64-linux-gnu",
+            "description": "native host",
             "toolchainFile": "${sourceDir}/cmake/x86_64-linux-gnu.cmake",
-            "cacheVariables": {"PRESET": "linux-x86_64"}
+            "cacheVariables": {
+                "HW":"pc", "CPU":"i5", "ARCH":"x86_64", "OS":"linux"
+            }
         },
         {
             "name": "win32-i686",
